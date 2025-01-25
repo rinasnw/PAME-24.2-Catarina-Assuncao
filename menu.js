@@ -1,7 +1,11 @@
 const readline = require ('readline-sync');
 const { Sistema } = require ('./classes'); // Importa a classe Sistema
+const { carregarDados } = require ('./classes'); // Importa a função carregarDados
+const { salvarDados } = require ('./classes'); // Importa a função salvarDados
+const fs = require('fs');
 
-const sistema = new Sistema(); // Cria uma instância do Sistema
+const sistema = new Sistema(); // Cria uma instancia do Sistema
+carregarDados(sistema); // Carrega os dados ao iniciar o programa
 
 function exibirMenu() {
 
@@ -12,10 +16,10 @@ function exibirMenu() {
 }
 
 function main() {
-    
-    while (true) {   // faz com que o menu seja exibido repetidamente até que o usuario escolha sair do programa
+
+    while (true) {   // Faz com que o menu seja exibido repetidamente até que o usuario escolha sair do programa
         exibirMenu();
-        const opcao = readline.question("Escolha uma opcao: ");
+        const opcao = readline.question("\nEscolha uma opcao: ");
 
         switch (opcao) {
 
@@ -26,6 +30,7 @@ function main() {
                 const senhaLogin = readline.question("Senha: ", { hideEchoBack: true });
                 sistema.fazerLogin(emailLogin, senhaLogin);
                 break;
+
 
             // Caso de fazer cadastro
             case "2":
@@ -46,7 +51,7 @@ function main() {
                 // Cadastro para funcionario
                 else if (tipoCadastro === "f") {
 
-                    const nomeUsuario = readline.question("Nome de Usuário: ");
+                    const nomeUsuario = readline.question("Nome de Usuario: ");
                     const cpf = readline.question("CPF: ");
                     const email = readline.question("E-mail: ");
                     const senha = readline.question("Senha: ", { hideEchoBack: true });
@@ -55,7 +60,7 @@ function main() {
 
                 else {
 
-                    console.log("Opção inválida.");
+                    console.log("Opção invalida.");
                 }
 
                 break;
@@ -63,13 +68,14 @@ function main() {
             // Caso para sair do programa
             case "3":
 
-                sistema.sairDoPrograma();
+            salvarDados(sistema); // Salva os dados antes de sair
+            sistema.sairDoPrograma();
 
                 return;
 
             default:
 
-                console.log("Opção inválida. Tente novamente.");
+                console.log("Opção invalida. Tente novamente.");
         }
     }
 }

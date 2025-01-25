@@ -1,3 +1,6 @@
+const fs = require('fs');
+const readline = require('readline-sync');
+
 // Classe Reserva
 class Reserva {
     constructor(id, idcliente, status, checkin, checkout){
@@ -8,6 +11,10 @@ class Reserva {
         this.checkin=checkin;
         this.checkout=checkout
     }
+    // criar uma instância de reserva no arquivo json
+    static fromJSON(json) {
+        return new Reserva(json.id, json.idcliente, json.status, json.checkin, json.checkout);
+}
 }
 
 // Classe Funcionário
@@ -19,6 +26,11 @@ class Funcionario {
         this.cpf=cpf;
         this.email=email;
         this.senha=senha
+    }
+
+    // criar uma instância de funcionario no arquivo json
+    static fromJSON(json) {
+        return new Funcionario(json.id, json.user, json.cpf, json.email, json.senha);
     }
 }
 
@@ -33,6 +45,11 @@ class Cliente{
         this.email=email;
         this.senha=senha;
     }
+
+    // criar uma instância de cliente no arquivo json
+    static fromJSON(json) {
+        return new Cliente(json.id, json.nome, json.nascimento, json.cpf, json.email, json.senha);
+    }
 }
 
 // Classe Quartos
@@ -44,6 +61,11 @@ class Quartos {
         this.quantidadeDisponivel=quantidadeDisponivel;
         this.nome=nome;
         this.descricao=descricao
+    }
+
+    // criar uma instância de quartos no arquivo json
+    static fromJSON(json) {
+        return new Quartos(json.camas, json.precoPorNoite, json.quantidadeDisponivel, json.nome, json.descricao);
     }
 
 }
@@ -63,7 +85,7 @@ class Sistema {
         const id = this.clientes.length + 1; // Gera um id unico para o cliente
         const novoCliente = new Cliente(id, nome, dataNascimento, cpf, email, senha); // Cria uma instância de Cliente
         this.clientes.push(novoCliente);  // Adiciona o cliente à lista de clientes
-        console.log(`Cliente ${nome} cadastrado com sucesso`);
+        console.log(`Cliente ${nome} cadastrado com sucesso.`);
     }
 
     // Função para cadastrar funcionario
@@ -71,7 +93,7 @@ class Sistema {
         const id = this.funcionarios.length + 1; // Gera um id unico para o funcionario
         const novoFuncionario = new Funcionario(id, nomeUsuario, cpf, email, senha); // Cria uma instância de Funcionario
         this.funcionarios.push(novoFuncionario); // Adiciona o funcionario à lista de funcionarios
-        console.log(`Funcionário ${nomeUsuario} cadastrado com sucesso!`);
+        console.log(`Funcionario ${nomeUsuario} cadastrado com sucesso.`);
     }
 
     // Função para fazer login
@@ -81,7 +103,7 @@ class Sistema {
         const cliente = this.clientes.find(c => c.email === email && c.senha === senha);
         if (cliente) {
             this.usuarioLogado = cliente; // Define o cliente como usuqrio logado
-            console.log(`Cliente ${cliente.nome} logado com sucesso!`);
+            console.log(`Cliente ${cliente.nome} logado com sucesso.`);
             return;
         }
 
@@ -89,7 +111,7 @@ class Sistema {
         const funcionario = this.funcionarios.find(f => f.email === email && f.senha === senha);
         if (funcionario) {
             this.usuarioLogado = funcionario; // Define o cfuncionario como usuario logado
-            console.log(`Funcionário ${funcionario.nomeUsuario} logado com sucesso!`);
+            console.log(`Funcionario ${funcionario.nomeUsuario} logado com sucesso.`);
             return;
         }
 
@@ -100,7 +122,31 @@ class Sistema {
     // Função para sair do programa
     sairDoPrograma() {
         this.usuarioLogado = null; // Remove o usuario logado
-        console.log("Você saiu do programa. Até logo!");
+        console.log("Voce saiu do programa.");
+    }
+}
+
+// Função para salvar as listas em um arquivo JSON.
+function salvarDados(sistema) {
+    const dados = {
+        clientes: sistema.clientes,
+        funcionarios: sistema.funcionarios,
+        quartos: sistema.quartos,
+        reservas: sistema.reservas
+    };
+    fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
+}
+
+// Função para carregar os dados do arquivo json
+function carregarDados(sistema) {
+    if (fs.existsSync('dados.json')) {
+        const dados = JSON.parse(fs.readFileSync('dados.json', 'utf-8'));
+        sistema.clientes = dados.clientes.map(Cliente.fromJSON);
+        sistema.funcionarios = dados.funcionarios.map(Funcionario.fromJSON);
+        sistema.quartos = dados.quartos.map(Quartos.fromJSON);
+        sistema.reservas = dados.reservas.map(Reserva.fromJSON);
+    } else {
+        console.log("Nenhum dado salvo encontrado.");
     }
 }
 
@@ -110,5 +156,7 @@ module.exports = {
     Funcionario,
     Cliente,
     Quartos,
-    Sistema
+    Sistema,
+    carregarDados: carregarDados,
+    salvarDados: salvarDados
 };
