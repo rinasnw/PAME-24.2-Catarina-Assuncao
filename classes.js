@@ -53,12 +53,58 @@ class Sistema {
     constructor() {
         this.clientes = []; // Lista de clientes cadastrados
         this.funcionarios = []; // Lista de funcionarios cadastrados
-        this.reservas = []; // Lista de reservas
-        this.quartos = []; // Lista de quartos disponíveis
+        this.quartos = []; // Lista de quartos disponiveis
+        this.reservas = []; // Lista das reservas
+        this.usuarioLogado = null; // Usuario logado no momento
+    }
+
+    // Função para cadastrar cliente
+    cadastrarCliente(nome, dataNascimento, cpf, email, senha) {
+        const id = this.clientes.length + 1; // Gera um id unico para o cliente
+        const novoCliente = new Cliente(id, nome, dataNascimento, cpf, email, senha); // Cria uma instância de Cliente
+        this.clientes.push(novoCliente);  // Adiciona o cliente à lista de clientes
+        console.log(`Cliente ${nome} cadastrado com sucesso`);
+    }
+
+    // Função para cadastrar funcionario
+    cadastrarFuncionario(nomeUsuario, cpf, email, senha) {
+        const id = this.funcionarios.length + 1; // Gera um id unico para o funcionario
+        const novoFuncionario = new Funcionario(id, nomeUsuario, cpf, email, senha); // Cria uma instância de Funcionario
+        this.funcionarios.push(novoFuncionario); // Adiciona o funcionario à lista de funcionarios
+        console.log(`Funcionário ${nomeUsuario} cadastrado com sucesso!`);
+    }
+
+    // Função para fazer login
+    fazerLogin(email, senha) {
+
+        // Procura um cliente com o e-mail e senha fornecidos
+        const cliente = this.clientes.find(c => c.email === email && c.senha === senha);
+        if (cliente) {
+            this.usuarioLogado = cliente; // Define o cliente como usuqrio logado
+            console.log(`Cliente ${cliente.nome} logado com sucesso!`);
+            return;
+        }
+
+        // Procura um funcionario com o e-mail e senha fornecidos
+        const funcionario = this.funcionarios.find(f => f.email === email && f.senha === senha);
+        if (funcionario) {
+            this.usuarioLogado = funcionario; // Define o cfuncionario como usuario logado
+            console.log(`Funcionário ${funcionario.nomeUsuario} logado com sucesso!`);
+            return;
+        }
+
+        // Se não encontrar nenhum usuario exibe uma mensagem de erro
+        console.log("E-mail ou senha incorretos.");
+    }
+
+    // Função para sair do programa
+    sairDoPrograma() {
+        this.usuarioLogado = null; // Remove o usuario logado
+        console.log("Você saiu do programa. Até logo!");
     }
 }
 
-// exportando as classes
+// Exportando as classes
 module.exports = {
     Reserva,
     Funcionario,
