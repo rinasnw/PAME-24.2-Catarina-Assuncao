@@ -1,5 +1,7 @@
 const readline = require ('readline-sync');
 const { Sistema } = require ('./classes'); // Importa a classe Sistema
+const { salvarDados } = require ('./classes'); // Importa a função salvar dados
+const { carregarDados } = require ('./classes'); // Importa a função carregar dados
 const fs = require('fs');
 
 const sistema = new Sistema(); // Cria uma instancia do Sistema

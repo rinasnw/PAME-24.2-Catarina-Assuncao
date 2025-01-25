@@ -124,20 +124,10 @@ class Sistema {
         this.usuarioLogado = null; // Remove o usuario logado
         console.log("Voce saiu do programa.");
     }
-
-    // Função para salvar as listas em um arquivo JSON.
-    salvarDados(sistema) {
-        const dados = {
-            clientes: sistema.clientes,
-            funcionarios: sistema.funcionarios,
-            quartos: sistema.quartos,
-            reservas: sistema.reservas
-        };
-        fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
-    }
+}
 
     // Função para carregar os dados do arquivo json
-    carregarDados(sistema) {
+    function carregarDados(sistema) {
         if (fs.existsSync('dados.json')) {
             const dados = JSON.parse(fs.readFileSync('dados.json', 'utf-8'));
             sistema.clientes = dados.clientes.map(Cliente.fromJSON);
@@ -148,7 +138,17 @@ class Sistema {
             console.log("Nenhum dado salvo encontrado.");
         }
     }
-}
+
+    // Função para salvar as listas em um arquivo JSON.
+    function salvarDados(sistema) {
+            const dados = {
+                clientes: sistema.clientes,
+                funcionarios: sistema.funcionarios,
+                quartos: sistema.quartos,
+                reservas: sistema.reservas
+            };
+            fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
+        }
 
 // Exportando as classes
 module.exports = {
@@ -157,4 +157,6 @@ module.exports = {
     Cliente,
     Quartos,
     Sistema,
+    salvarDados: salvarDados,
+    carregarDados: carregarDados
 };
