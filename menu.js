@@ -30,29 +30,29 @@ function main() {
             const opcao = readline.question("Escolha uma opcao: (digite o numero da opcao) ");
 
             switch (opcao) {
-                case "4":
+                case "1":
                     sistema.verMeusDados(); // aparece seus dados
                     break;
 
-                case "5":
+                case "2":
                     sistema.verListaReservas(); // aparece as reservas
                     break;
 
-                case "6":
+                case "3":
                     sistema.verListaQuartos(); // aparece lista de quartos
                     break;
 
-                case "7":
+                case "4":
                     sistema.verListaClientes(); // aparece lista de clientes
                     break;
 
-                case "8": // mudar status da reserva (precisa do id da reserva)
+                case "5": // mudar status da reserva (precisa do id da reserva)
                     const idReserva = readline.question("ID da Reserva: ");
                     const novoStatus = readline.question("Novo Status (pendente, adiada, realizada, cancelada): ");
                     sistema.mudarStatusReserva(Number(idReserva), novoStatus);
                     break;
 
-                case "9": // adicionar quarto
+                case "6": // adicionar quarto
                     const camas = readline.question("Quantidade de Camas: ");
                     const precoPorNoite = readline.question("Preço por Noite: ");
                     const quantidadeDisponivel = readline.question("Quantidade Disponível: ");
@@ -61,7 +61,7 @@ function main() {
                     sistema.adicionarQuarto(Number(camas), Number(precoPorNoite), Number(quantidadeDisponivel), nome, descricao);
                     break;
  
-                case "10": // sai do programa
+                case "7": // sai do programa
                     sistema.sairDoPrograma();
                     return;
 
