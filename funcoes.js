@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline-sync');
 
 function exibirMenuFuncionario() {
-    console.log("\n=== MENU FUNCIONÁRIO ===");
+    console.log("\n  MENU FUNCIONARIO ");
     console.log("4. Ver Meus Dados");
     console.log("5. Ver Lista de Reservas");
     console.log("6. Ver Lista de Quartos");

@@ -9,7 +9,15 @@
       "senha": "123123"
     }
   ],
-  "funcionarios": [],
+  "funcionarios": [
+    {
+      "id": 1,
+      "user": "rina",
+      "cpf": "197",
+      "email": "rina@hotmail.com",
+      "senha": "123"
+    }
+  ],
   "quartos": [],
   "reservas": []
 }

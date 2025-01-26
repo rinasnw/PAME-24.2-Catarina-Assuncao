@@ -101,6 +101,7 @@ class Sistema {
 
         // Procura um cliente com o e-mail e senha fornecidos
         const cliente = this.clientes.find(c => c.email === email && c.senha === senha);
+
         if (cliente) {
             this.usuarioLogado = cliente; // Define o cliente como usuqrio logado
             console.log(`Cliente ${cliente.nome} logado com sucesso.`);
@@ -109,6 +110,7 @@ class Sistema {
 
         // Procura um funcionario com o e-mail e senha fornecidos
         const funcionario = this.funcionarios.find(f => f.email === email && f.senha === senha);
+
         if (funcionario) {
             this.usuarioLogado = funcionario; // Define o cfuncionario como usuario logado
             console.log(`Funcionario ${funcionario.nomeUsuario} logado com sucesso.`);
@@ -117,6 +119,57 @@ class Sistema {
 
         // Se não encontrar nenhum usuario exibe uma mensagem de erro
         console.log("E-mail ou senha incorretos.");
+    }
+
+    // Função para ver dados do usuario
+    verMeusDados() {
+        if (this.usuarioLogado) {
+            console.log("\n MEUS DADOS ");
+            console.log(this.usuarioLogado);
+            return;
+        }
+    }
+
+    // Função para ver lista de reservas
+    verListaReservas() {
+        console.log("\n LISTA DE RESERVAS ");
+        this.reservas.forEach(reserva => {
+            console.log(reserva);
+        });
+    }
+
+    // Função para ver lista de quartos
+    verListaQuartos() {
+        console.log("\n LISTA DE QUARTOS ");
+        this.quartos.forEach(quarto => {
+            console.log(quarto);
+        });
+    }
+
+    // Função para ver lista de clientes
+    verListaClientes() {
+        console.log("\n LISTA DE CLIENTES ");
+        this.clientes.forEach(cliente => {
+            console.log(cliente);
+        });
+    }
+
+    // Função para ver status da reserva
+    mudarStatusReserva(idReserva, novoStatus) {
+        const reserva = this.reservas.find(r => r.id === idReserva);
+        if (reserva) {
+            reserva.status = novoStatus;
+            console.log(`Status da reserva ${idReserva} alterado para ${novoStatus}.`);
+        } else {
+            console.log("Reserva nao encontrada.");
+        }
+    }
+
+    // Função para adicionar quarto
+    adicionarQuarto(camas, precoPorNoite, quantidadeDisponivel, nome, descricao) {
+        const novoQuarto = new Quartos(camas, precoPorNoite, quantidadeDisponivel, nome, descricao);
+        this.quartos.push(novoQuarto);
+        console.log(`Quarto ${nome} adicionado com sucesso!`);
     }
 
     // Função para sair do programa
@@ -134,10 +187,9 @@ class Sistema {
             sistema.funcionarios = dados.funcionarios.map(Funcionario.fromJSON);
             sistema.quartos = dados.quartos.map(Quartos.fromJSON);
             sistema.reservas = dados.reservas.map(Reserva.fromJSON);
-        } else {
-            console.log("Nenhum dado salvo encontrado.");
-        }
+            return;
     }
+}
 
     // Função para salvar as listas em um arquivo JSON.
     function salvarDados(sistema) {

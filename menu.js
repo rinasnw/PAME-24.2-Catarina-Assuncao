@@ -1,5 +1,9 @@
 const readline = require ('readline-sync');
 const { Sistema } = require ('./classes'); // Importa a classe Sistema
+const { Funcionario } = require ('./classes'); 
+const { Reserva } = require ('./classes');
+const { Cliente } = require ('./classes');
+const { Quartos } = require ('./classes');
 const { salvarDados } = require ('./classes'); // Importa a função salvar dados
 const { carregarDados } = require ('./classes'); // Importa a função carregar dados
 const { exibirMenuFuncionario } = require ('./funcoes');
@@ -17,10 +21,56 @@ function exibirMenu() {
 }
 
 function main() {
-
+    
     while (true) {   // Faz com que o menu seja exibido repetidamente até que o usuario escolha sair do programa
+
+        // Verifica se tem um usuario logado e se esse usuario é uma instancia da classe funcionario
+        if (sistema.usuarioLogado && sistema.usuarioLogado instanceof Funcionario) {
+            exibirMenuFuncionario(); // Se o funcionario estiver logado aparecera o menu funcionario
+            const opcao = readline.question("Escolha uma opcao: (digite o numero da opcao) ");
+
+            switch (opcao) {
+                case "4":
+                    sistema.verMeusDados(); // aparece seus dados
+                    break;
+
+                case "5":
+                    sistema.verListaReservas(); // aparece as reservas
+                    break;
+
+                case "6":
+                    sistema.verListaQuartos(); // aparece lista de quartos
+                    break;
+
+                case "7":
+                    sistema.verListaClientes(); // aparece lista de clientes
+                    break;
+
+                case "8": // mudar status da reserva (precisa do id da reserva)
+                    const idReserva = readline.question("ID da Reserva: ");
+                    const novoStatus = readline.question("Novo Status (pendente, adiada, realizada, cancelada): ");
+                    sistema.mudarStatusReserva(Number(idReserva), novoStatus);
+                    break;
+
+                case "9": // adicionar quarto
+                    const camas = readline.question("Quantidade de Camas: ");
+                    const precoPorNoite = readline.question("Preço por Noite: ");
+                    const quantidadeDisponivel = readline.question("Quantidade Disponível: ");
+                    const nome = readline.question("Nome do Quarto: ");
+                    const descricao = readline.question("Descrição: ");
+                    sistema.adicionarQuarto(Number(camas), Number(precoPorNoite), Number(quantidadeDisponivel), nome, descricao);
+                    break;
+ 
+                case "10": // sai do programa
+                    sistema.sairDoPrograma();
+                    return;
+
+                default:
+                    console.log("Opção invalida.");  }
+            }
+
         exibirMenu();
-        const opcao = readline.question("\nEscolha uma opcao: ");
+        const opcao = readline.question("\n Escolha uma opcao: ");
 
         switch (opcao) {
 
