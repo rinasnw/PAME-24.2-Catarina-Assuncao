@@ -7,25 +7,57 @@ const { Quartos } = require ('./classes');
 const { salvarDados } = require ('./classes'); // Importa a função salvar dados
 const { carregarDados } = require ('./classes'); // Importa a função carregar dados
 const { exibirMenuFuncionario } = require ('./funcoes');
+const { exibirMenuCliente } = require ('./funcoes');
+const { exibirMenu } = require ('./funcoes');
 const fs = require('fs');
 
-const sistema = new Sistema(); // Cria uma instancia do Sistema
+const sistema = new Sistema(); // Cria uma instancia do sistema
 carregarDados(sistema); // Carrega os dados ao iniciar o programa
 
-function exibirMenu() {
-
-    console.log("\n MENU PRINCIPAL");
-    console.log("1. Fazer Login");
-    console.log("2. Fazer Cadastro");
-    console.log("3. Sair do Programa");
-}
-
 function main() {
+
+        while (true) { // Faz com que o menu seja exibido repetidamente até que o usuario escolha sair do programa
+
+            if (sistema.usuarioLogado && sistema.usuarioLogado instanceof Cliente) { // Se tiver um usuario logado e o usuario for uma instancia de Cliente sera exibido o menu do cliente
+                exibirMenuCliente();
+                const opcao = readline.question("Escolha uma opcao: ");
     
-    while (true) {   // Faz com que o menu seja exibido repetidamente até que o usuario escolha sair do programa
+                switch (opcao) {
+                    case "1":
+                        sistema.verMeusDados(); // aparece seus dados
+                        break;
+    
+                    case "2":
+                        sistema.verListaQuartos(); // ver lista quartos
+                        break;
+    
+                    case "3":
+                        const idQuarto = readline.question("ID do Quarto: ");
+                        const dataEntrada = readline.question("Data de Entrada (DD-MM-AAAA): ");
+                        const dataSaida = readline.question("Data de Saida (DD-MM-AAAA): ");
+                        sistema.fazerReserva(Number(idQuarto), dataEntrada, dataSaida); // fazer reserva
+                        break;
+    
+                    case "4":
+                        const idReserva = readline.question("ID da Reserva: ");
+                        sistema.cancelarReserva(Number(idReserva)); // cancelar reserva
+                        break;
+    
+                    case "5":
+                        sistema.verMinhasReservas(); // ver reservas
+                        break;
+    
+                    case "6":
+                        sistema.sairDoPrograma();
+                        return;
+    
+                    default: // nao faz nada
+                }
+            }
 
         // Verifica se tem um usuario logado e se esse usuario é uma instancia da classe funcionario
-        if (sistema.usuarioLogado && sistema.usuarioLogado instanceof Funcionario) {
+        else if (sistema.usuarioLogado && sistema.usuarioLogado instanceof Funcionario) {
+
             exibirMenuFuncionario(); // Se o funcionario estiver logado aparecera o menu funcionario
             const opcao = readline.question("Escolha uma opcao: (digite o numero da opcao) ");
 
@@ -55,9 +87,9 @@ function main() {
                 case "6": // adicionar quarto
                     const camas = readline.question("Quantidade de Camas: ");
                     const precoPorNoite = readline.question("Preço por Noite: ");
-                    const quantidadeDisponivel = readline.question("Quantidade Disponível: ");
+                    const quantidadeDisponivel = readline.question("Quantidade Disponivel: ");
                     const nome = readline.question("Nome do Quarto: ");
-                    const descricao = readline.question("Descrição: ");
+                    const descricao = readline.question("Descricao: ");
                     sistema.adicionarQuarto(Number(camas), Number(precoPorNoite), Number(quantidadeDisponivel), nome, descricao);
                     break;
  
@@ -65,8 +97,9 @@ function main() {
                     sistema.sairDoPrograma();
                     return;
 
-                default:
-                    console.log("Opção invalida.");  }
+                default: // nao faz nada
+
+                }
             }
 
         exibirMenu();

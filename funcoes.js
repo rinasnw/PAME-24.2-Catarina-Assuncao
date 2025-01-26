@@ -22,6 +22,16 @@ function exibirMenuCliente() {
 
 }
 
+function exibirMenu() {
+
+    console.log("\n MENU PRINCIPAL");
+    console.log("1. Fazer Login");
+    console.log("2. Fazer Cadastro");
+    console.log("3. Sair do Programa");
+}
+
 module.exports = {
     exibirMenuFuncionario: exibirMenuFuncionario,
+    exibirMenuCliente: exibirMenuCliente,
+    exibirMenu: exibirMenu
 };
