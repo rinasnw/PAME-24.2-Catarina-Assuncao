@@ -32,6 +32,21 @@
       "descricao": "Ar-condicionado, banheira, frigobar e televisao"
     }
   ],
-  "reservas": [],
+  "reservas": [
+    {
+      "id": 1,
+      "idcliente": 1,
+      "status": "realizada",
+      "checkin": "33",
+      "checkout": "33"
+    },
+    {
+      "id": 2,
+      "idcliente": 1,
+      "status": "cancelada",
+      "checkin": "888",
+      "checkout": "000"
+    }
+  ],
   "quantidadeDisponivelQuartos": 2
 }

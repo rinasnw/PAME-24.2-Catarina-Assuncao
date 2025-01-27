@@ -182,21 +182,22 @@ class Sistema {
         console.log(`Quantidade disponível de quartos: ${this.quantidadeDisponivelQuartos}`);
     }
 
-    // Função para fazer reserva
     fazerReserva(nome, dataEntrada, dataSaida) {
-  
-        const quarto = this.quartos.find(q => q.nome === nome); // busca o quarto pelo nome
-        if (!quarto) {
-            console.log("Quarto nao encontrado.");
+   
+        const quarto = this.quartos.find(q => q.nome === nome.toLowerCase()); // busca o quarto pelo nome (case-insensitive)
+    
+        if (!quarto) { // verifica se o quarto foi encontrado
+            console.log("Quarto não encontrado. Verifique o nome e tente novamente.");
             return;
         }
     
-        if (this.quantidadeDisponivelQuartos <= 0) {  // verifica se o quarto esta disponivel
-            console.log("Quarto indisponivel.");
+        if (quarto.quantidadeDisponivel <= 0) { // verifica se o quarto esta disponivel
+            console.log("Quarto indisponivel no momento.");
             return;
         }
     
-        const novaReserva = new Reserva(  // cria a reserva
+        // cria a reserva
+        const novaReserva = new Reserva(
             this.reservas.length + 1, // id unico
             this.usuarioLogado.id, // id do cliente logado
             "pendente", // status inicial
@@ -204,10 +205,11 @@ class Sistema {
             dataSaida
         );
     
-        this.reservas.push(novaReserva); // adiciona a lista de reservas
-        this.quantidadeDisponivelQuartos--; // reduz a quantidade disponivel do quarto
+        this.reservas.push(novaReserva); // adiciona a reserva na lista de reservas
     
-        console.log(`Reserva realizada com sucesso. ID da reserva: ${novaReserva.id}`);
+        quarto.quantidadeDisponivel--; // atualiza a quantidade disponivel do quarto
+    
+        console.log(`Reserva realizada. ID da reserva: ${novaReserva.id}`);
     }
 
     // Função para cliente cancelar reserva
