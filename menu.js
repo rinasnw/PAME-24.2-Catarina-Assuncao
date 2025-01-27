@@ -61,7 +61,7 @@ function main() {
         else if (sistema.usuarioLogado && sistema.usuarioLogado instanceof Funcionario) {
 
             exibirMenuFuncionario(); // Se o funcionario estiver logado aparecera o menu funcionario
-            const opcao = readline.question("Escolha uma opcao: (digite o numero da opcao) ");
+            const opcao = readline.question("\nEscolha uma opcao (digite o numero da opcao): ");
 
             switch (opcao) {
                 case "1":
