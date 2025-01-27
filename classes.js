@@ -91,7 +91,7 @@ class Sistema {
     // Função para cadastrar funcionario
     cadastrarFuncionario(nomeUsuario, cpf, email, senha) {
         const id = this.funcionarios.length + 1; // Gera um id unico para o funcionario
-        const novoFuncionario = new Funcionario(id, nomeUsuario, cpf, email, senha); // Cria uma instância de Funcionario
+        const novoFuncionario = new Funcionario(id, nomeUsuario, cpf, email, senha); // Cria uma instancia de funcionario
         this.funcionarios.push(novoFuncionario); // Adiciona o funcionario à lista de funcionarios
         console.log(`Funcionario ${nomeUsuario} cadastrado com sucesso.`);
     }
@@ -166,10 +166,39 @@ class Sistema {
     }
 
     // Função para adicionar quarto
-    adicionarQuarto(camas, precoPorNoite, quantidadeDisponivel, nome, descricao) {
-        const novoQuarto = new Quartos(camas, precoPorNoite, quantidadeDisponivel, nome, descricao);
+    adicionarQuarto(camas, precoPorNoite, nome, descricao) {
+        const novoQuarto = new Quartos(camas, precoPorNoite, nome, descricao);
         this.quartos.push(novoQuarto);
-        console.log(`Quarto ${nome} adicionado com sucesso!`);
+        console.log(`Quarto ${nome} adicionado com sucesso.`);
+        Quartos.quantidadeDisponivel++;
+    }
+
+    // Função para fazer reserva
+    fazerReserva(idQuarto, dataEntrada, dataSaida) {
+  
+        const quarto = this.quartos.find(q => q.id === idQuarto); // busca o quarto pelo ID
+        if (quarto) {
+            console.log("Quarto nao encontrado.");
+            return;
+        }
+    
+        if (quarto.quantidadeDisponivel <= 0) {  // verifica se o quarto esta disponivel
+            console.log("Quarto indisponivel.");
+            return;
+        }
+    
+        const novaReserva = new Reserva(  // cria a reserva
+            this.reservas.length + 1, // id unico
+            this.usuarioLogado.id, // id do cliente logado
+            "pendente", // status inicial
+            dataEntrada,
+            dataSaida
+        );
+    
+        this.reservas.push(novaReserva); // adiciona a lista de reservas
+        Quartos.quantidadeDisponivel--; // reduz a quantidade disponivel do quarto
+    
+        console.log(`Reserva realizada com sucesso. ID da reserva: ${novaReserva.id}`);
     }
 
     // Função para sair do programa

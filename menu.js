@@ -86,11 +86,10 @@ function main() {
 
                 case "6": // adicionar quarto
                     const camas = readline.question("Quantidade de Camas: ");
-                    const precoPorNoite = readline.question("Preço por Noite: ");
-                    const quantidadeDisponivel = readline.question("Quantidade Disponivel: ");
+                    const precoPorNoite = readline.question("Preco por Noite: ");
                     const nome = readline.question("Nome do Quarto: ");
                     const descricao = readline.question("Descricao: ");
-                    sistema.adicionarQuarto(Number(camas), Number(precoPorNoite), Number(quantidadeDisponivel), nome, descricao);
+                    sistema.adicionarQuarto(Number(camas), Number(precoPorNoite), nome, descricao);
                     break;
  
                 case "7": // sai do programa
