@@ -32,10 +32,10 @@ function main() {
                         break;
     
                     case "3":
-                        const idQuarto = readline.question("ID do Quarto: ");
+                        const nome = readline.question("Nome do Quarto: ");
                         const dataEntrada = readline.question("Data de Entrada (DD-MM-AAAA): ");
                         const dataSaida = readline.question("Data de Saida (DD-MM-AAAA): ");
-                        sistema.fazerReserva(Number(idQuarto), dataEntrada, dataSaida); // fazer reserva
+                        sistema.fazerReserva(nome, dataEntrada, dataSaida); // fazer reserva
                         break;
     
                     case "4":

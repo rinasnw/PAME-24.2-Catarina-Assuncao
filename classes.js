@@ -83,8 +83,8 @@ class Sistema {
     // Função para cadastrar cliente
     cadastrarCliente(nome, dataNascimento, cpf, email, senha) {
         const id = this.clientes.length + 1; // Gera um id unico para o cliente
-        const novoCliente = new Cliente(id, nome, dataNascimento, cpf, email, senha); // Cria uma instância de Cliente
-        this.clientes.push(novoCliente);  // Adiciona o cliente à lista de clientes
+        const novoCliente = new Cliente(id, nome, dataNascimento, cpf, email, senha); // Cria uma instancia de cliente
+        this.clientes.push(novoCliente);  // Adiciona o cliente na lista de clientes
         console.log(`Cliente ${nome} cadastrado com sucesso.`);
     }
 
@@ -92,7 +92,7 @@ class Sistema {
     cadastrarFuncionario(nomeUsuario, cpf, email, senha) {
         const id = this.funcionarios.length + 1; // Gera um id unico para o funcionario
         const novoFuncionario = new Funcionario(id, nomeUsuario, cpf, email, senha); // Cria uma instancia de funcionario
-        this.funcionarios.push(novoFuncionario); // Adiciona o funcionario à lista de funcionarios
+        this.funcionarios.push(novoFuncionario); // Adiciona o funcionario na lista de funcionarios
         console.log(`Funcionario ${nomeUsuario} cadastrado com sucesso.`);
     }
 
@@ -103,7 +103,7 @@ class Sistema {
         const cliente = this.clientes.find(c => c.email === email && c.senha === senha);
 
         if (cliente) {
-            this.usuarioLogado = cliente; // Define o cliente como usuqrio logado
+            this.usuarioLogado = cliente; // Define o cliente como usuario logado
             console.log(`Cliente ${cliente.nome} logado com sucesso.`);
             return;
         }
@@ -183,15 +183,15 @@ class Sistema {
     }
 
     // Função para fazer reserva
-    fazerReserva(idQuarto, dataEntrada, dataSaida) {
+    fazerReserva(nome, dataEntrada, dataSaida) {
   
-        const quarto = this.quartos.find(q => q.id === idQuarto); // busca o quarto pelo ID
-        if (quarto) {
+        const quarto = this.quartos.find(q => q.nome === nome); // busca o quarto pelo nome
+        if (!quarto) {
             console.log("Quarto nao encontrado.");
             return;
         }
     
-        if (quarto.quantidadeDisponivel <= 0) {  // verifica se o quarto esta disponivel
+        if (this.quantidadeDisponivelQuartos <= 0) {  // verifica se o quarto esta disponivel
             console.log("Quarto indisponivel.");
             return;
         }
@@ -215,7 +215,7 @@ class Sistema {
         const reserva = this.reservas.find(r => r.id === idReserva);
         if (reserva && reserva.idcliente === this.usuarioLogado.id) {
             reserva.status = "cancelada";
-            const quarto = this.quartos.find(q => q.id === reserva.idQuarto);
+            const quarto = this.quartos.find(q => q.nome === reserva.nome);
             if (quarto) {
                 this.quantidadeDisponivelQuartos++; // aumenta a quantidade disponivel do quarto
             }
