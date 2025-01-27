@@ -54,18 +54,17 @@ class Cliente{
 
 // Classe Quartos
 class Quartos {
-    constructor(camas, precoPorNoite, quantidadeDisponivel, nome, descricao){
+    constructor(camas, precoPorNoite, nome, descricao){
 
         this.camas=camas;
         this.precoPorNoite=precoPorNoite;
-        this.quantidadeDisponivel=quantidadeDisponivel;
         this.nome=nome;
         this.descricao=descricao
     }
 
     // criar uma instância de quartos no arquivo json
     static fromJSON(json) {
-        return new Quartos(json.camas, json.precoPorNoite, json.quantidadeDisponivel, json.nome, json.descricao);
+        return new Quartos(json.camas, json.precoPorNoite, json.nome, json.descricao);
     }
 
 }
@@ -78,6 +77,7 @@ class Sistema {
         this.quartos = []; // Lista de quartos disponiveis
         this.reservas = []; // Lista das reservas
         this.usuarioLogado = null; // Usuario logado no momento
+        this.quantidadeDisponivelQuartos = 0; // quantidade disponível de quartos
     }
 
     // Função para cadastrar cliente
@@ -143,6 +143,7 @@ class Sistema {
         console.log("\n LISTA DE QUARTOS ");
         this.quartos.forEach(quarto => {
             console.log(quarto);
+            console.log(`Quantidade disponivel de quartos: ${this.quantidadeDisponivelQuartos}`);
         });
     }
 
@@ -167,10 +168,18 @@ class Sistema {
 
     // Função para adicionar quarto
     adicionarQuarto(camas, precoPorNoite, nome, descricao) {
-        const novoQuarto = new Quartos(camas, precoPorNoite, nome, descricao);
+        const novoQuarto = new Quartos(
+            Number(camas),
+            Number(precoPorNoite),
+            nome,
+            descricao
+        );
+    
         this.quartos.push(novoQuarto);
-        console.log(`Quarto ${nome} adicionado com sucesso.`);
-        Quartos.quantidadeDisponivel++;
+        this.quantidadeDisponivelQuartos++;
+    
+        console.log(`Quarto "${nome}" adicionado com sucesso!`);
+        console.log(`Quantidade disponível de quartos: ${this.quantidadeDisponivelQuartos}`);
     }
 
     // Função para fazer reserva
@@ -196,9 +205,34 @@ class Sistema {
         );
     
         this.reservas.push(novaReserva); // adiciona a lista de reservas
-        Quartos.quantidadeDisponivel--; // reduz a quantidade disponivel do quarto
+        this.quantidadeDisponivelQuartos--; // reduz a quantidade disponivel do quarto
     
         console.log(`Reserva realizada com sucesso. ID da reserva: ${novaReserva.id}`);
+    }
+
+    // Função para cliente cancelar reserva
+    cancelarReserva(idReserva) {
+        const reserva = this.reservas.find(r => r.id === idReserva);
+        if (reserva && reserva.idcliente === this.usuarioLogado.id) {
+            reserva.status = "cancelada";
+            const quarto = this.quartos.find(q => q.id === reserva.idQuarto);
+            if (quarto) {
+                this.quantidadeDisponivelQuartos++; // aumenta a quantidade disponivel do quarto
+            }
+            console.log(`Reserva ${idReserva} cancelada com sucesso.`);
+        } else {
+            console.log("Reserva nao encontrada ou voce nao tem permissao para cancela-la.");
+        }
+    }
+
+    // Função cliente ver reservas
+    verMinhasReservas() {
+    
+        console.log("\n MINHAS RESERVAS ");
+        const minhasReservas = this.reservas.filter(r => r.idcliente === this.usuarioLogado.id);
+        minhasReservas.forEach(reserva => {
+            console.log(reserva);
+        });
     }
 
     // Função para sair do programa
@@ -216,6 +250,7 @@ class Sistema {
             sistema.funcionarios = dados.funcionarios.map(Funcionario.fromJSON);
             sistema.quartos = dados.quartos.map(Quartos.fromJSON);
             sistema.reservas = dados.reservas.map(Reserva.fromJSON);
+            sistema.quantidadeDisponivelQuartos = dados.quantidadeDisponivelQuartos || 0;
             return;
     }
 }
@@ -226,7 +261,8 @@ class Sistema {
                 clientes: sistema.clientes,
                 funcionarios: sistema.funcionarios,
                 quartos: sistema.quartos,
-                reservas: sistema.reservas
+                reservas: sistema.reservas,
+                quantidadeDisponivelQuartos: sistema.quantidadeDisponivelQuartos
             };
             fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
         }

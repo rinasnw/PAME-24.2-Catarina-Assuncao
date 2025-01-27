@@ -18,6 +18,20 @@
       "senha": "123"
     }
   ],
-  "quartos": [],
-  "reservas": []
+  "quartos": [
+    {
+      "camas": 2,
+      "precoPorNoite": 400,
+      "nome": "Lua",
+      "descricao": "Varanda com vista para praia, ar-condicionado e frigobar"
+    },
+    {
+      "camas": 1,
+      "precoPorNoite": 300,
+      "nome": "Venus",
+      "descricao": "Ar-condicionado, banheira, frigobar e televisao"
+    }
+  ],
+  "reservas": [],
+  "quantidadeDisponivelQuartos": 2
 }
