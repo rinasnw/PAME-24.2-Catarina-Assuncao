@@ -77,7 +77,7 @@ class Sistema {
         this.quartos = []; // Lista de quartos disponiveis
         this.reservas = []; // Lista das reservas
         this.usuarioLogado = null; // Usuario logado no momento
-        this.quantidadeDisponivelQuartos = 0; // quantidade disponível de quartos
+        this.quantidadeDisponivelQuartos = 4; // quantidade disponível de quartos
     }
 
     // Função para cadastrar cliente
@@ -186,12 +186,8 @@ class Sistema {
    
         const quarto = this.quartos.find(q => q.nome === nome.toLowerCase()); // busca o quarto pelo nome (case-insensitive)
     
-        if (!quarto) { // verifica se o quarto foi encontrado
-            console.log("Quarto não encontrado. Verifique o nome e tente novamente.");
-            return;
-        }
     
-        if (quarto.quantidadeDisponivel <= 0) { // verifica se o quarto esta disponivel
+        if (this.quantidadeDisponivelQuartos <= 0) { // verifica se o quarto esta disponivel
             console.log("Quarto indisponivel no momento.");
             return;
         }
@@ -206,9 +202,6 @@ class Sistema {
         );
     
         this.reservas.push(novaReserva); // adiciona a reserva na lista de reservas
-    
-        quarto.quantidadeDisponivel--; // atualiza a quantidade disponivel do quarto
-    
         console.log(`Reserva realizada. ID da reserva: ${novaReserva.id}`);
     }
 
@@ -217,11 +210,7 @@ class Sistema {
         const reserva = this.reservas.find(r => r.id === idReserva);
         if (reserva && reserva.idcliente === this.usuarioLogado.id) {
             reserva.status = "cancelada";
-            const quarto = this.quartos.find(q => q.nome === reserva.nome);
-            if (quarto) {
-                this.quantidadeDisponivelQuartos++; // aumenta a quantidade disponivel do quarto
-            }
-            console.log(`Reserva ${idReserva} cancelada com sucesso.`);
+            this.quantidadeDisponivelQuartos--;
         } else {
             console.log("Reserva nao encontrada ou voce nao tem permissao para cancela-la.");
         }
@@ -250,7 +239,6 @@ class Sistema {
             sistema.funcionarios = dados.funcionarios.map(Funcionario.fromJSON);
             sistema.quartos = dados.quartos.map(Quartos.fromJSON);
             sistema.reservas = dados.reservas.map(Reserva.fromJSON);
-            sistema.quantidadeDisponivelQuartos = dados.quantidadeDisponivelQuartos || 0;
             return;
         }
     }
@@ -262,7 +250,6 @@ class Sistema {
             funcionarios: sistema.funcionarios,
             quartos: sistema.quartos,
             reservas: sistema.reservas,
-            quantidadeDisponivelQuartos: sistema.quantidadeDisponivelQuartos
         };
         fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
     }
