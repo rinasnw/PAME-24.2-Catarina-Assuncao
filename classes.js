@@ -142,8 +142,7 @@ class Sistema {
     verListaQuartos() {
         console.log("\n LISTA DE QUARTOS ");
         this.quartos.forEach(quarto => {
-            console.log(quarto);
-            console.log(`Quantidade disponivel de quartos: ${this.quantidadeDisponivelQuartos}`);
+            console.log(`- ${quarto.nome} (${quarto.descricao}), valor: (${quarto.precoPorNoite})`);
         });
     }
 

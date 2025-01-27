@@ -30,6 +30,7 @@ function main() {
                         break;
     
                     case "3":
+                        sistema.verListaQuartos()
                         const nome = readline.question("Nome do Quarto: ");
                         const dataEntrada = readline.question("Data de Entrada (DD-MM-AAAA): ");
                         const dataSaida = readline.question("Data de Saida (DD-MM-AAAA): ");
