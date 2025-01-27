@@ -30,23 +30,20 @@
       "precoPorNoite": 300,
       "nome": "Venus",
       "descricao": "Ar-condicionado, banheira, frigobar e televisao"
-    }
-  ],
-  "reservas": [
-    {
-      "id": 1,
-      "idcliente": 1,
-      "status": "realizada",
-      "checkin": "33",
-      "checkout": "33"
     },
     {
-      "id": 2,
-      "idcliente": 1,
-      "status": "cancelada",
-      "checkin": "888",
-      "checkout": "000"
+      "camas": 3,
+      "precoPorNoite": 500,
+      "nome": "Marte",
+      "descricao": "Varanda com vista para piscina, ar-condicionado, banheira, frigobar e televisao"
+    },
+    {
+      "camas": 2,
+      "precoPorNoite": 500,
+      "nome": "Venus",
+      "descricao": "Varanda com vista para praia, ar-condicionado, jacuzzi, frigobar e televisao"
     }
   ],
-  "quantidadeDisponivelQuartos": 2
+  "reservas": [],
+  "quantidadeDisponivelQuartos": 4
 }
