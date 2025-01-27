@@ -19,6 +19,7 @@ function exibirMenuCliente() {
     console.log("3. Fazer Reserva ")
     console.log("4. Cancelar Reserva")
     console.log("5. Ver Minhas Reservas")
+    console.log("6. Sair")
 
 }
 

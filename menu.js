@@ -49,10 +49,13 @@ function main() {
     
                     case "6":
                         sistema.sairDoPrograma();
+                        salvarDados(sistema);
                         return;
     
                     default: // nao faz nada
                 }
+
+                continue; // volta para o menu do cliente
             }
 
         // Verifica se tem um usuario logado e se esse usuario é uma instancia da classe funcionario
@@ -94,11 +97,13 @@ function main() {
  
                 case "7": // sai do programa
                     sistema.sairDoPrograma();
+                    salvarDados(sistema);
                     return;
 
                 default: // nao faz nada
-
                 }
+
+                continue; // volta para o menu do funcionario
             }
 
         exibirMenu();
