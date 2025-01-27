@@ -242,10 +242,8 @@ class Sistema {
         this.usuarioLogado = null; // Remove o usuario logado
         console.log("Voce saiu do programa.");
     }
-}
 
-    // Função para carregar os dados do arquivo json
-    function carregarDados(sistema) {
+    carregarDados(sistema) {
         if (fs.existsSync('dados.json')) {
             const dados = JSON.parse(fs.readFileSync('dados.json', 'utf-8'));
             sistema.clientes = dados.clientes.map(Cliente.fromJSON);
@@ -254,20 +252,21 @@ class Sistema {
             sistema.reservas = dados.reservas.map(Reserva.fromJSON);
             sistema.quantidadeDisponivelQuartos = dados.quantidadeDisponivelQuartos || 0;
             return;
+        }
     }
-}
 
     // Função para salvar as listas em um arquivo JSON.
-    function salvarDados(sistema) {
-            const dados = {
-                clientes: sistema.clientes,
-                funcionarios: sistema.funcionarios,
-                quartos: sistema.quartos,
-                reservas: sistema.reservas,
-                quantidadeDisponivelQuartos: sistema.quantidadeDisponivelQuartos
-            };
-            fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
-        }
+    salvarDados(sistema) {
+        const dados = {
+            clientes: sistema.clientes,
+            funcionarios: sistema.funcionarios,
+            quartos: sistema.quartos,
+            reservas: sistema.reservas,
+            quantidadeDisponivelQuartos: sistema.quantidadeDisponivelQuartos
+        };
+        fs.writeFileSync('dados.json', JSON.stringify(dados, null, 2)); // Salva os dados em um arquivo JSON
+    }
+}
 
 // Exportando as classes
 module.exports = {
@@ -275,7 +274,5 @@ module.exports = {
     Funcionario,
     Cliente,
     Quartos,
-    Sistema,
-    salvarDados: salvarDados,
-    carregarDados: carregarDados
+    Sistema
 };

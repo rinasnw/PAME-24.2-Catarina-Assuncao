@@ -4,15 +4,13 @@ const { Funcionario } = require ('./classes');
 const { Reserva } = require ('./classes');
 const { Cliente } = require ('./classes');
 const { Quartos } = require ('./classes');
-const { salvarDados } = require ('./classes'); // Importa a função salvar dados
-const { carregarDados } = require ('./classes'); // Importa a função carregar dados
 const { exibirMenuFuncionario } = require ('./funcoes');
 const { exibirMenuCliente } = require ('./funcoes');
 const { exibirMenu } = require ('./funcoes');
 const fs = require('fs');
 
 const sistema = new Sistema(); // Cria uma instancia do sistema
-carregarDados(sistema); // Carrega os dados ao iniciar o programa
+sistema.carregarDados(sistema); // Carrega os dados ao iniciar o programa
 
 function main() {
 
@@ -49,7 +47,7 @@ function main() {
     
                     case "6":
                         sistema.sairDoPrograma();
-                        salvarDados(sistema);
+                        sistema.salvarDados(sistema);
                         return;
     
                     default: // nao faz nada
@@ -97,7 +95,7 @@ function main() {
  
                 case "7": // sai do programa
                     sistema.sairDoPrograma();
-                    salvarDados(sistema);
+                    sistema.salvarDados(sistema);
                     return;
 
                 default: // nao faz nada
@@ -156,7 +154,7 @@ function main() {
             // Caso para sair do programa
             case "3":
 
-            salvarDados(sistema); // Salva os dados antes de sair
+            sistema.salvarDados(sistema); // Salva os dados antes de sair
             sistema.sairDoPrograma();
 
                 return;
